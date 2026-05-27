@@ -1,16 +1,17 @@
 services:
   postgres:
     image: postgres:18.4
-    container_name: project_name-postgres
+    container_name: github-issue-hunter-postgres
     restart: unless-stopped
     ports:
       - '5433:5432'
     environment:
-      POSTGRES_USER: db_user_name
-      POSTGRES_PASSWORD: db_password
-      POSTGRES_DB: db_name
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - name_here_postgres_data:/var/lib/postgresql
+      - github_issue_hunter_postgres_data:/var/lib/postgresql
+      - ./db/init:/docker-entrypoint-initdb.d
 
 volumes:
-  requestops_postgres_data:
+  github_issue_hunter_postgres_data:
