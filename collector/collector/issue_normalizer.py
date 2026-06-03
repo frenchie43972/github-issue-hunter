@@ -10,6 +10,11 @@ MAX_BODY_PREVIEW_LENGTH = 300
 
 def build_body_preview(body: str | None) -> str | None:
   """
+    Create a short preview of an issue body.
+
+    The returned preview is capped at MAX_BODY_PREVIEW_LENGTH characters.
+    If the body is longer than that, the final three characters are reserved for an ellipsis to show that truncation occurred.
+    
     Args:
       body: Raw GitHub issue body text.
 
@@ -25,7 +30,9 @@ def build_body_preview(body: str | None) -> str | None:
   if len(normalized_body) <= MAX_BODY_PREVIEW_LENGTH:
     return normalized_body
   
-  return f'{normalized_body[:MAX_BODY_PREVIEW_LENGTH].rstrip()}'
+  preview_text = normalized_body[: MAX_BODY_PREVIEW_LENGTH - 3].rstrip()
+  
+  return f'{preview_text}...'
 
 def parse_repository_from_api_url(repository_url: str) -> tuple[str, str, str]:
   """
