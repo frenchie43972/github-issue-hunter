@@ -1,1 +1,11 @@
-PLACEHOLDER
+[project]
+name = "github-issue-hunter"
+version = "0.1.0"
+description = "API for finding GitHub issues"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard-no-fastapi-cloud-cli]",
+]
+
+[tool.fastapi]
+entrypoint = "app.main:app"
