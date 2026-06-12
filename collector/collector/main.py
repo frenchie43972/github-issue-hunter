@@ -12,6 +12,7 @@ collection and persistence.
 """
 
 import httpx
+import time
 
 from collector.github_client import search_issues
 from collector.issue_normalizer import normalize_github_issue
@@ -73,6 +74,8 @@ def main() -> None:
 
             print(f"Search failed: {search_query.name}")
             print(f"Network error: {error}")
+            
+        time.sleep(10)
 
     print("")
     print("Collector run complete.")
