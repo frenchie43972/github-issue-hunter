@@ -20,6 +20,9 @@ from collector.issue_store import upsert_github_issue
 from collector.search_queries import SEARCH_QUERIES
 
 
+RATE_LIMIT_STATUS_CODES = {403, 429}
+
+
 def main() -> None:
     """Run all configured GitHub issue searches and store valid results."""
 
@@ -69,12 +72,17 @@ def main() -> None:
             print(f"GitHub returned HTTP {status_code}")
             print(f"Response: {response_text}")
 
+            if status_code in RATE_LIMIT_STATUS_CODES:
+                print("")
+                print("GitHub rate limit hit. Stopping collector run early.")
+                break
+
         except httpx.RequestError as error:
             total_failed_queries += 1
 
             print(f"Search failed: {search_query.name}")
             print(f"Network error: {error}")
-            
+
         time.sleep(10)
 
     print("")
